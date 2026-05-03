@@ -1,5 +1,4 @@
 # Playwright API Testing
-
 [![Playwright Tests](https://github.com/axel-ganum/playwright-api-testing/actions/workflows/playwright.yml/badge.svg)](https://github.com/axel-ganum/playwright-api-testing/actions)
 
 ## Overview
