@@ -79,11 +79,13 @@ Se incluyen escenarios negativos para validar el manejo de errores de la API:
 Nota: La API utilizada (JSONPlaceholder) es una API mock, por lo que algunos endpoints no devuelven errores reales (ej: siempre retornan 200).  
 En un entorno productivo, estos casos validarían códigos como 400, 401 o 404 de forma estricta.
 
+---
+
 ## CI/CD
 
 El proyecto utiliza GitHub Actions para ejecutar los tests automáticamente en cada push y pull request.
 
-Archivo:
+Archivo:  
 .github/workflows/playwright.yml
 
 Pipeline:
@@ -100,21 +102,13 @@ Pipeline:
 
 npm install
 
-
-### 2. Instalar browsers
-
+# 2. Instalar browsers
 npx playwright install
 
-
-### 3. Ejecutar tests
-
+# 3. Ejecutar tests
 npx playwright test
 
-
----
-
 ## Key Points
-
 - Separación de responsabilidades clara (clients / tests / validators)
 - Uso de patrones de diseño para escalabilidad (API Client Pattern)
 - Validaciones reutilizables y mantenibles
@@ -122,17 +116,13 @@ npx playwright test
 - Integración continua con GitHub Actions
 - Enfoque en buenas prácticas de testing y diseño de tests
 
----
-
 ## Design Decisions
-
 - Se utiliza API Client Pattern para desacoplar la lógica de requests de los tests y facilitar escalabilidad.
 - Las validaciones se centralizan en funciones reutilizables (validators) para evitar duplicación.
 - Los tests priorizan claridad y mantenibilidad sobre complejidad.
 - Se evita lógica dentro de los tests, delegando responsabilidades a clients y utils.
 
 ## Limitations
-
 Este proyecto no cubre:
 
 - Autenticación / autorización
@@ -143,7 +133,6 @@ Este proyecto no cubre:
 Estas limitaciones se deben a que la API utilizada es pública y no representa un entorno productivo real.
 
 ## Example Test
-
 ```ts
 test('GET /users returns a valid list of users', async ({ request }) => {
   const usersClient = new UsersClient(request);
@@ -160,3 +149,6 @@ test('GET /users returns a valid list of users', async ({ request }) => {
 
 ## Author
 QA Automation Project – Portfolio
+
+
+
