@@ -146,7 +146,7 @@ test('GET /users returns a valid list of users', async ({ request }) => {
     validateUser(user);
   });
 });
-
+```
 ## Author
 QA Automation Project – Portfolio
 
