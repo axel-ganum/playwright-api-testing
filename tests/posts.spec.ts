@@ -5,44 +5,85 @@ import { validatePost } from '../utils/validators';
 test('POST /posts creates a new post', async ({ request }) => {
 
    const posts = new PostsClients(request);
-   const res = await posts.createPost({
-       title: 'test title',
-       body: 'test body',
-       userId: 1
-   });
+   
+   const payload = {
+    title: 'test title',
+    body: 'test body',
+    userId: 1
+   };
 
-    expect(res.status()).toBe(201);
+   const res = await posts.createPost(payload);
 
-    const body = await res.json();
+   expect(res.status()).toBe(201);
 
-    validatePost(body);
+   const body = await res.json();
 
-    expect(body.title).toBe('test title');
-    expect(body.body).toBe('test body');
+   validatePost(body);
+
+   expect(body).toMatchObject(payload);
+   expect(body.id).toBeDefined();
   });
-
 
   test('PUT /posts/1 updates the post', async ({request}) => {
      
     const post = new PostsClients(request);
-    const res = await post.updatePost(1, {
+   
+    const payload = {
       title: 'updated title',
       body: 'updated body',
       userId: 1
-    });
+    };
+  
+    const res = await post.updatePost(1, payload);
 
-    expect(res.status()).toBeTruthy();
+    expect(res.status()).toBe(200);
 
     const body = await res.json();
 
     validatePost(body);
     
-    expect(body.title).toBe('updated title');
-  });
+    expect(body).toMatchObject(payload);
 
+  });
 
   test('DELETE /posts/1 deletes the post', async ({request}) => {
     const posts = new PostsClients(request);
     const res = await posts.deletePost(1);
     expect(res.status()).toBe(200);
-    });
+
+    const body = await res.json();
+
+    expect(body).toEqual({});
+  });
+
+  test('POST /posts with invalid payload returns error', async ({request}) => {
+    const posts = new PostsClients(request);
+
+    const payload = {
+      title: '',
+      body: 'test body',
+      userId: 1
+    };
+    const res = await posts.createPost(payload);
+
+    expect(res.status()).not.toBe(201);
+  });
+
+  test('PUT /posts/999 updates non-existing post', async ({request}) => {
+    const posts = new PostsClients(request);
+    const payload = {
+      title: 'test',
+      body: 'test',
+      userId: 1
+    };
+    const res = await posts.updatePost(999, payload);
+
+   expect([200, 404]).toContain(res.status());
+  });
+
+  test('DELETE /posts/999 handles non-existing resource', async ({request}) => {
+    const posts = new PostsClients(request);
+    const res = await posts.deletePost(999);
+
+    expect([200, 404]).toContain(res.status());
+  });
